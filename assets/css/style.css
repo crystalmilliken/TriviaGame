@@ -1,0 +1,46 @@
+main{
+    width: 80%;
+    margin: auto;
+}
+#questionAnswers{
+    float: left;
+    width: 40%
+}
+#controls{
+    float: left;
+    width: 30%;
+    padding-left: 3em;
+    padding-top: 3em;
+}
+.answerDivs{
+padding: 1em;
+background-color: lightgray;
+
+margin:.5em;
+}
+.answerDivs:hover{
+padding:1em;
+background-color: lightgray;
+opacity: .6;
+margin:.5em;
+}
+#question{
+    font-size: 24px;
+    font-weight:bolder;
+}
+#result img{
+    padding-top:2em;
+    padding-bottom:1em;
+}
+#result{
+    color:red;
+}
+#answers{
+    margin-top:1em;
+}
+.danger{
+    color:red;
+}
+#start{
+    margin-top:1em;
+}
