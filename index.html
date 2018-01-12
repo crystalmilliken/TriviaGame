@@ -3,24 +3,36 @@
 
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="assets/css/style.css">
     </head>
     <body>
+        <nav>
+            <div id="menu">
+                <header><h1>Interview Trivia</h1></header>
+                <button id="start">Start</button>
+                <div id="timer"></div>
+            </div>
+            <div id ="logo"><img src="assets/images/ready.png" alt="ready or not"></div>
+        </nav>
         <main>
             <section id="questionAnswers">
                 <div id="question"></div>
                 <div id="answers"></div>
                 <div id="result"></div>
             </section>
-            <section id ="controls">
-                <div id="timer"></div>
-                <button id="start">Start</button>
-            </section>
             <div id="rightWrong">
                 <div id="right"></div>
                 <div id="wrong"></div>
+                
             </div>
+            
+            
         </main>
+        <section id ="destroy">
+                <div id="gif"></div>
+                <div id="personStatus"></div>
+            </section>
     <script src="assets/javascript/game.js"></script>
 </body>
 </html>

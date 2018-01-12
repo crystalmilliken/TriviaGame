@@ -1,16 +1,40 @@
+
+nav{
+    display: flex;
+    border: thin solid black;
+    padding: .5em;
+    justify-content: space-between;
+    
+}
+#menu{
+    display: flex;
+    align-items: flex-start;
+}
+header{
+    padding-bottom:1em;
+}
+#logo{
+    padding-right:3em;
+}
+h1{
+    border-bottom: thin solid black;
+}
 main{
     width: 80%;
     margin: auto;
+    display: flex;
+    align-items: stretch;
 }
 #questionAnswers{
-    float: left;
-    width: 40%
+    padding:2em;
+    
 }
-#controls{
-    float: left;
-    width: 30%;
-    padding-left: 3em;
-    padding-top: 3em;
+#destroy{
+    clear:both;
+    width: 80%;
+    margin: auto;
+   display: flex;
+   align-content: flex-start;
 }
 .answerDivs{
 padding: 1em;
@@ -41,6 +65,33 @@ margin:.5em;
 .danger{
     color:red;
 }
+
+#rightWrong{
+    float: left;
+    width: 40%;
+    padding-left: 3em;
+    padding-top: 3em;
+
+}
+
+#gif{
+    align-self: flex-end;
+}
+#personStatus{
+    padding-left:10em;
+}
+#timer{
+    padding-left:1em;
+    align-self: flex-end;
+}
 #start{
-    margin-top:1em;
+    align-self: flex-end;
+    margin-left:1em;
+}
+@media (max-width:800px){
+    main{
+        flex-direction: column;
+    }
+
+
 }
