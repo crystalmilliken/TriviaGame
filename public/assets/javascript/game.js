@@ -1,5 +1,4 @@
-//Instead of creating the game inside one object I wanted to practice using a class/constructor
-
+//Instead of creating the game inside one object I wanted to practice using a class
  let happyIm = ["good1.jpg", "good2.png", "good3.png", "good4.png"];
  let bummerIm = ["bad1.jpg", "bad2.png", "bad3.png", "bad4.jpg"];
 class CreateGame{
@@ -16,20 +15,24 @@ class CreateGame{
     this.arrFake = [];
     this.happyIm = happyIm;
     this.bummerIm = bummerIm;
-    }
+}
+//gets a random number based on some min max(did this because I needed to randomize pictures that display after question is answered)
     randomizer(min, max){
             let randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
             return randomNum;
         }
+//starts the interval based on some passed time, then calls the startClock function
     timeSet(inter){
         this.setInterval = setInterval(this.startClock.bind(this), inter);
     }
+//function called during the set interval.
     startClock(){
         this.time--;
         this.isrunning = true;
         document.getElementById("timer").innerText = `Time Remaing: ${this.time}`;
         document.getElementById("gif").innerHTML = "<img src='assets/images/walking.png' alt='walking turtle'>";
         document.getElementById("personStatus").innerHTML = "<img src='assets/images/happyPerson.png' alt='happy person'>";
+//if else statements for the changes to the HTML based on the time left
         if(this.time <= 0){
             if(this.tempArray.length <= 0){
                 alert("game over");
@@ -55,6 +58,7 @@ class CreateGame{
            
         }
     }
+//Needed to generate fake answers and only include max of 2. Then add them together with the answer that is correct.
     generateAnswers(fakeAndReal){
         for(let i = 0; i < fakeAndReal.length; i++){
             let newDiv = document.createElement("div");
@@ -66,7 +70,7 @@ class CreateGame{
         }
            this.timeSet(1000);
     }
-
+//Several arrays that I needed to shuffle so that things wouldn't always be the same
     shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1));
@@ -74,7 +78,7 @@ class CreateGame{
     }
     return array;
     }
-
+//This generates the questions
     generateQuestions(){
         document.getElementById("gif").innerHTML = "<img src='assets/images/walking.png' alt='walking turtle'>";
         document.getElementById("personStatus").innerHTML = "<img src='assets/images/happyPerson.png' alt='happy person'>";
@@ -86,6 +90,7 @@ class CreateGame{
         let fakeAndReal = [];
         let fake1 = this.randomizer(0, (this.fakeAnswers.length -1));
         let fake2 = this.randomizer(0, (this.fakeAnswers.length - 1));
+//Needed to make sure that there wasn't 2 of the fake answers that were the same.
         if(fake1 === fake2){
             fake1 = this.randomizer(0, (this.fakeAnswers.length -1));
             fake2 = this.randomizer(0, (this.fakeAnswers.length - 1));
@@ -96,13 +101,16 @@ class CreateGame{
             if(this.tempArray.length === 0){
                 //create new array from 
                 this.tempArray = this.questions.slice();
-            }            
+            }   
+//assign current question for access
             this.currentQuestion = this.tempArray[questionNum];
             document.getElementById("question").innerText = this.tempArray[questionNum].question;
+//This is where I push the answers all together and shuffle them
             fakeAndReal.push(this.tempArray[questionNum].answer, this.fakeAnswers[fake1], this.fakeAnswers[fake2]);
             fakeAndReal = this.shuffleArray(fakeAndReal);
-                //After using the question, take it away
+//After using the question, take it away
             this.tempArray.splice(questionNum, 1);
+//If you have gone through all the questions, the game is over
             if(this.tempArray.length <= 0){
                 alert("game over");
                 document.getElementById("question").innerText = "";
@@ -121,6 +129,8 @@ class CreateGame{
         }
         
     }
+
+//CheckAnswers checks which one you click on, finds the innerText and compares it with the currentQuestion
     checkAnswers(e){
         let currentChoice = e.target.innerText;
         if(currentChoice === this.currentQuestion.answer){
@@ -132,7 +142,7 @@ class CreateGame{
             document.getElementById("result").innerHTML = `${this.currentQuestion.answer}<img src='assets/images/${this.happyIm[ranNum]}'>`;
             clearInterval(this.setInterval);
              document.getElementById("gif").innerHTML = "<img src='assets/images/turtleDissapointed.png' alt='dissapointed turtle'>";
-            setTimeout(this.generateQuestions.bind(this),2000);
+            setTimeout(this.generateQuestions.bind(this),5000);
             
         }else{
             this.wrong++;
@@ -144,9 +154,10 @@ class CreateGame{
             clearInterval(this.setInterval);
              document.getElementById("gif").innerHTML = "<img src='assets/images/turtleFire.png' alt='walking turtle'>";
             document.getElementById("personStatus").innerHTML = "<img src='assets/images/sadPerson.png' alt='sad person'>";
-             setTimeout(this.generateQuestions.bind(this),2000);
+             setTimeout(this.generateQuestions.bind(this),5000);
         }
     }
+//Function to stop the timer and start(which triggers a wrong answer as well as moves to the next question)
     toggleStart(){
         if(this.isrunning){
             this.isrunning = false;
@@ -158,19 +169,17 @@ class CreateGame{
         }
     }
 }
-//just practicing AJAX
+//just practicing AJAX, gets the 2 arrays from a file
 function getData(){
-let xmlRequestObject = new XMLHttpRequest();
-xmlRequestObject.onreadystatechange= function(e){
-    if(this.readyState === 4 && this.status === 200){
-        let result = JSON.parse(e.target.response)
-        console.log(result[1].fakeAnswers)
-       let triviaGame = new CreateGame(result[0].questions, result[1].fakeAnswers, happyIm, bummerIm);
+
+      $.ajax({
+      url: "assets/javascript/data.js",
+      method: "GET"
+    }).then(function(e) {
+        let result = JSON.parse(e);
+        let triviaGame = new CreateGame(result[0].questions, result[1].fakeAnswers, happyIm, bummerIm);
         document.getElementById("start").addEventListener("click", function(){triviaGame.toggleStart()}.bind(this));
-    }
-}
-    xmlRequestObject.open("Get","assets/javascript/data.js");
-    xmlRequestObject.send();
+    });
 }
 getData();
 

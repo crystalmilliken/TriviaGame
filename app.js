@@ -9,6 +9,16 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+var requestTime = function (req, res, next) {
+  req.requestTime = Date.now()
+  next()
+}
+app.use(requestTime)
+app.get('/time', function (req, res) {
+  var responseText = 'Time is...<br>'
+  responseText += '<small>Requested at: ' + req.requestTime + '</small>'
+  res.send(responseText)
+})
 var server = http.createServer(app);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
